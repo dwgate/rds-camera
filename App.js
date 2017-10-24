@@ -13,4 +13,6 @@ export default StackNavigator ({
   Review: {
     screen: Review,
   }
-});
+},
+{ headerMode: 'screen' }
+);

@@ -6,45 +6,21 @@ import { StackNavigator } from 'react-navigation';
 
 import Review from './Review.js';
 
-// export default class Home extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       image: false,
-//     }
-//     this.takePhoto = this.takePhoto.bind(this);
-//   }
+/*export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: false,
+    }
+    this.takePhoto = this.takePhoto.bind(this);
+  }
 
-//   takePhoto() {
-//     this.props.navigate('REVIEW');
-//     this.props.x();
-//     // ImagePicker.launchCameraAsync();
-//   }
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text>
-//           Welcome to photo preview app land!
-//         </Text>
-//         <Button
-//           buttonStyle={styles.camera}
-//           title="Take Photo"
-//           onPress={this.takePhoto}
-//         /> 
-//       </View>
-//     );
-//   }
-// }
-
-export default class Home extends React.Component {
-  static navigationOptions = {
-    title: 'Home'
-  };
-
-
+  takePhoto() {
+    this.props.navigate('REVIEW');
+    this.props.x();
+    // ImagePicker.launchCameraAsync();
+  }
   render() {
-    const { navigate } = this.props.navigation;
-    const review = () => navigate('Review');
     return (
       <View style={styles.container}>
         <Text>
@@ -53,7 +29,55 @@ export default class Home extends React.Component {
         <Button
           buttonStyle={styles.camera}
           title="Take Photo"
-          onPress={review}
+          onPress={this.takePhoto}
+        /> 
+      </View>
+    );
+  }
+}*/
+
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: 'hi'
+    }
+
+    this.takePhoto = this.takePhoto.bind(this);
+  }
+
+  static navigationOptions = {
+    title: 'Home',
+    header: null,
+  };
+
+  takePhoto() {
+    const { navigate } = this.props.navigation;
+    const review = () => navigate('Review', { image: this.state.image });
+    
+    let x = new Promise((resolve) => {
+      resolve(ImagePicker.launchCameraAsync());
+    });
+    
+    x
+    .then(({ uri, height, width }) => {
+      this.setState({ image: {uri, height, width } });
+      review();
+    });
+  } 
+
+
+  render() {
+    
+    return (
+      <View style={styles.container}>
+        <Text>
+          Welcome to photo preview app land!
+        </Text>
+        <Button
+          buttonStyle={styles.camera}
+          title="Take Photo"
+          onPress={this.takePhoto}
         /> 
       </View>
     );
