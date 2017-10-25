@@ -6,41 +6,11 @@ import { StackNavigator } from 'react-navigation';
 
 import Review from './Review.js';
 
-/*export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: false,
-    }
-    this.takePhoto = this.takePhoto.bind(this);
-  }
-
-  takePhoto() {
-    this.props.navigate('REVIEW');
-    this.props.x();
-    // ImagePicker.launchCameraAsync();
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          Welcome to photo preview app land!
-        </Text>
-        <Button
-          buttonStyle={styles.camera}
-          title="Take Photo"
-          onPress={this.takePhoto}
-        /> 
-      </View>
-    );
-  }
-}*/
-
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: 'hi'
+      uri: null
     }
 
     this.takePhoto = this.takePhoto.bind(this);
@@ -53,31 +23,33 @@ export default class Home extends React.Component {
 
   takePhoto() {
     const { navigate } = this.props.navigation;
-    const review = () => navigate('Review', { image: this.state.image });
+    const review = () => navigate('Review', { uri: this.state.uri });
     
-    let x = new Promise((resolve) => {
+    const snap = new Promise((resolve) => {
       resolve(ImagePicker.launchCameraAsync());
     });
-    
-    x
-    .then(({ uri, height, width }) => {
-      this.setState({ image: {uri, height, width } });
+
+    snap
+    .then(({ uri }) => {
+      this.setState({ uri });
       review();
     });
   } 
 
-
   render() {
-    
     return (
       <View style={styles.container}>
-        <Text>
-          Welcome to photo preview app land!
+        <Text style={styles.title}>
+          RDS Challenge
         </Text>
         <Button
           buttonStyle={styles.camera}
           title="Take Photo"
           onPress={this.takePhoto}
+          color='black'
+          raised
+          borderRadius={3}
+          backgroundColor='#679933'
         /> 
       </View>
     );
@@ -89,16 +61,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#28536C',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
-  child: {},
   camera: {
-    color: 'green',
-    borderColor: '1px',
-    borderRadius: 5,
-    borderColor: 'black',
+    borderWidth: 1,
+    borderColor: '#C0E699',
+  },
+  title: {
+    fontSize: 25,
+    letterSpacing: 2,
   }
 });
-
